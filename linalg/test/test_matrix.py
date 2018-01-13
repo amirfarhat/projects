@@ -65,6 +65,14 @@ class TestMatrix(unittest.TestCase):
 				elif direction == 'v':
 					self.assertTrue(i == matrix.get_row_count())
 
+	def test_get_matrix(self):
+		"""
+		Tests the get_matrix function, by comparing
+		element-wise with the raw matrices saved as lists
+		"""
+		for i in range(len(self.test_matrices)):
+			self.assertTrue(self.test_matrices[i].get_matrix() == self.test_lists[i])
+
 	def test_setitem(self):
 		"""
 		"""
@@ -139,8 +147,5 @@ class TestMatrix(unittest.TestCase):
 				else:
 					self.assertRaises(IndexError, lambda: self.test_matrices[i] != self.test_matrices[j])
 		
-
-
-
 if __name__ == '__main__':
-	unittest.main()
+	unittest.main(verbosity = 3)
