@@ -69,6 +69,7 @@ class TestMatrix(unittest.TestCase):
 		"""
 		"""
 		raise NotImplementedError
+		
 
 	def test_getitem(self):
 		"""
@@ -102,15 +103,42 @@ class TestMatrix(unittest.TestCase):
 		works for any two matrices by doing
 		an element-wise check without __iter__
 		"""
-		raise NotImplementedError
+		for i in range(len(self.test_matrices)):
+			for j in range(len(self.test_matrices)):
+				have_same_dims = self.test_matrices[i].get_row_count() == self.test_matrices[j].get_row_count() and self.test_matrices[i].get_col_count() == self.test_matrices[j].get_col_count()
+				if i == j:
+					self.assertTrue(self.test_matrices[i] == self.test_matrices[j])
+				elif have_same_dims:
+					are_equal = True
+					for r in range(self.test_matrices[i].get_row_count()):
+						for c in range(self.test_matrices[i].get_col_count()):
+							if self.test_matrices[i][r,c] != self.test_matrices[j][r,c]:
+								are_equal = False
+					self.assertTrue(are_equal == (self.test_matrices[i] == self.test_matrices[j]))
+				else:
+					self.assertRaises(IndexError, lambda: self.test_matrices[i] == self.test_matrices[j])
 
 	def test_ne(self):
 		"""
-		Tests that the equality operation = 
+		Tests that the anti-equality operation != 
 		works for any two matrices by doing
 		an element-wise check without __iter__
 		"""
-		raise NotImplementedError
+		for i in range(len(self.test_matrices)):
+			for j in range(len(self.test_matrices)):
+				have_same_dims = self.test_matrices[i].get_row_count() == self.test_matrices[j].get_row_count() and self.test_matrices[i].get_col_count() == self.test_matrices[j].get_col_count()
+				if i == j:
+					self.assertFalse(self.test_matrices[i] != self.test_matrices[j])
+				elif have_same_dims:
+					are_un_equal = False
+					for r in range(self.test_matrices[i].get_row_count()):
+						for c in range(self.test_matrices[i].get_col_count()):
+							if self.test_matrices[i][r,c] != self.test_matrices[j][r,c]:
+								are_un_equal = True
+					self.assertTrue(are_un_equal != (self.test_matrices[i] != self.test_matrices[j]))
+				else:
+					self.assertRaises(IndexError, lambda: self.test_matrices[i] != self.test_matrices[j])
+		
 
 
 
