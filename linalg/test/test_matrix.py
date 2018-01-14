@@ -169,7 +169,11 @@ class TestMatrix(unittest.TestCase):
 	def test_get_from_list(self):
 		"""
 		"""
-		raise NotImplementedError
+		for i in range(len(self.test_matrices)):
+			list_repr = Matrix.get_from_list(self.test_lists[i])
+			self.assertTrue(list_repr.get_row_count() == self.test_matrices[i].get_row_count())
+			self.assertTrue(list_repr.get_col_count() == self.test_matrices[i].get_col_count())
+			self.assertTrue(list_repr == self.test_matrices[i])
 
 if __name__ == '__main__':
 	unittest.main(verbosity = 3)
