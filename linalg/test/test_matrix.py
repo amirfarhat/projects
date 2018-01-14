@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.join(DIR, "../"))
 
 from matrix import Matrix
 
-def load_test_matrices():
+def load_test_matrices(verbose = False):
 	"""
 	Returns a list of form [list, list] which 
 	correspond to the a list of lists and a list
@@ -19,7 +19,7 @@ def load_test_matrices():
 	# print('Opening the matrices.txt test file')
 	test_matrices_file = open("matrices.txt")
 	raw_text = test_matrices_file.read()
-	print('Processing matrices...')
+	if verbose: print('Processing matrices...')
 	test_matrices_file.close()
 	# split to raw matrices to be processed
 	raw_matrices = raw_text.split("\n\n")
@@ -31,7 +31,7 @@ def load_test_matrices():
 			array.append([int(x) for x in string_row])
 		return_value[0].append(array)
 		return_value[1].append(Matrix.get_from_list(array))
-	print('Matrices ready for testing')
+	if verbose: print('Matrices ready for testing')
 	return return_value
 
 matrices_cache = load_test_matrices()
@@ -76,13 +76,32 @@ class TestMatrix(unittest.TestCase):
 	def test_setitem(self):
 		"""
 		"""
-		raise NotImplementedError
+		lists, new_matrices = load_test_matrices()
+		dummy, old_matrices = load_test_matrices()
+		for array in lists:
+			array[0][0] += 1
+		for mat in new_matrices:
+			mat[0,0] += 1
+		for i in range(len(lists)):
+			self.assertFalse(new_matrices[i] == old_matrices[i])
+			for k in range(new_matrices[i].get_row_count()):
+				for l in range(new_matrices[i].get_col_count()):
+					self.assertTrue(new_matrices[i][k,l] == lists[i][k][l])
+
+
 		
 
 	def test_getitem(self):
 		"""
+		Tests the __getitem__ function by equating
+		the elements of a matrix with those of a list
+		representation, checking for equal values
 		"""
-		raise NotImplementedError
+		for index in range(len(self.test_matrices)):
+			for i in range(self.test_matrices[index].get_row_count()):
+				for j in range(self.test_matrices[index].get_col_count()):
+					self.assertTrue(self.test_matrices[index][i,j] == self.test_lists[index][i][j])
+
 
 	def test_iter(self):
 		"""
@@ -146,6 +165,11 @@ class TestMatrix(unittest.TestCase):
 					self.assertTrue(are_un_equal != (self.test_matrices[i] != self.test_matrices[j]))
 				else:
 					self.assertRaises(IndexError, lambda: self.test_matrices[i] != self.test_matrices[j])
-		
+	
+	def test_get_from_list(self):
+		"""
+		"""
+		raise NotImplementedError
+
 if __name__ == '__main__':
 	unittest.main(verbosity = 3)
