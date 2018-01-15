@@ -181,5 +181,12 @@ class TestMatrix(unittest.TestCase):
 			self.assertTrue(mat + zero_matrix == mat)
 			self.assertTrue(list(mat + mat) == [x*2 for x in list(mat)])
 
+	def test_subtract(self):
+		for mat in self.test_matrices:
+			zero_matrix = Matrix(row_count = mat.get_row_count(), col_count = mat.get_col_count())
+			self.assertTrue(mat - zero_matrix == mat)
+			self.assertTrue(mat - mat == zero_matrix)
+
+
 if __name__ == '__main__':
 	unittest.main(verbosity = 3)

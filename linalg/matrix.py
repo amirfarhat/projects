@@ -24,7 +24,18 @@ class Matrix:
 		return answer
 
 	def __sub__(self, other):
-		pass
+		# other must be a matrix to intuit equality 
+		if type(other) != Matrix:
+			raise TypeError('Given parameter is not a Matrix')
+		# other must have the same dimensions as self
+		if self.get_row_count() != other.get_row_count() or \
+			   self.get_col_count() != other.get_col_count():
+			   raise IndexError('Unequal dimensions')
+		answer = Matrix(row_count = self.get_row_count(), col_count = self.get_col_count())
+		for i in range(answer.get_row_count()):
+			for j in range(answer.get_col_count()):
+				answer[i,j] = self[i,j] - other[i,j]
+		return answer
 
 	def __mul__(self, other):
 		pass
