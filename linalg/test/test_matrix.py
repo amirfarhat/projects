@@ -61,7 +61,7 @@ class TestMatrix(unittest.TestCase):
 						elif direction == 'v':
 							a = matrix[i,0]
 						i += 1
-					except IndexError:
+					except:
 						break
 				if direction == 'h':
 					self.assertTrue(i == matrix.get_col_count())
@@ -102,7 +102,6 @@ class TestMatrix(unittest.TestCase):
 				for j in range(self.test_matrices[index].get_col_count()):
 					self.assertTrue(self.test_matrices[index][i,j] == self.test_lists[index][i][j])
 
-
 	def test_iter(self):
 		"""
 		Tests the functionality of __iter__ by
@@ -140,7 +139,7 @@ class TestMatrix(unittest.TestCase):
 								are_equal = False
 					self.assertTrue(are_equal == (self.test_matrices[i] == self.test_matrices[j]))
 				else:
-					self.assertRaises(IndexError, lambda: self.test_matrices[i] == self.test_matrices[j])
+					self.assertRaises(TypeError, lambda: self.test_matrices[i] == self.test_matrices[j])
 
 	def test_ne(self):
 		"""
@@ -161,7 +160,7 @@ class TestMatrix(unittest.TestCase):
 								are_un_equal = True
 					self.assertTrue(are_un_equal != (self.test_matrices[i] != self.test_matrices[j]))
 				else:
-					self.assertRaises(IndexError, lambda: self.test_matrices[i] != self.test_matrices[j])
+					self.assertRaises(TypeError, lambda: self.test_matrices[i] != self.test_matrices[j])
 	
 	def test_get_from_list(self):
 		"""

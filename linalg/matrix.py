@@ -10,14 +10,20 @@ class Matrix:
 		self.col_count = col_count
 		self.matrix = [[0 for _ in range(col_count)] for _ in range(row_count)]
 
-	def __add__(self, other):
-		# other must be a matrix to intuit equality 
+	def _check_other(self, other):
 		if type(other) != Matrix:
 			raise TypeError('Given parameter is not a Matrix')
-		# other must have the same dimensions as self
+
+	def _same_dimensions(self, other):
 		if self.get_row_count() != other.get_row_count() or \
-			   self.get_col_count() != other.get_col_count():
-			   raise IndexError('Unequal dimensions')
+		   self.get_col_count() != other.get_col_count():
+		   raise TypeError('Unequal dimensions')
+
+	def __add__(self, other):
+		# other must be a matrix to intuit equality 
+		self._check_other(other)
+		# other must have the same dimensions as self
+		self._same_dimensions(other)
 		answer = Matrix(row_count = self.get_row_count(), col_count = self.get_col_count())
 		for i in range(answer.get_row_count()):
 			for j in range(answer.get_col_count()):
@@ -26,12 +32,9 @@ class Matrix:
 
 	def __sub__(self, other):
 		# other must be a matrix to intuit equality 
-		if type(other) != Matrix:
-			raise TypeError('Given parameter is not a Matrix')
+		self._check_other(other)
 		# other must have the same dimensions as self
-		if self.get_row_count() != other.get_row_count() or \
-			   self.get_col_count() != other.get_col_count():
-			   raise IndexError('Unequal dimensions')
+		self._same_dimensions(other)
 		answer = Matrix(row_count = self.get_row_count(), col_count = self.get_col_count())
 		for i in range(answer.get_row_count()):
 			for j in range(answer.get_col_count()):
@@ -40,20 +43,14 @@ class Matrix:
 
 	def __mul__(self, other):
 		# other must be a matrix to intuit equality 
-		if type(other) != Matrix:
-			raise TypeError('Given parameter is not a Matrix')
+		self._check_other(other)
 		# other must have the same dimensions as self
-		if self.get_col_count() != other.get_row_count():
-			raise TypeError('Row count of 2nd matrix must be same as col count of first matrix')
+		if self.get_col_count() != other.get_row_count(): raise TypeError('Row count of 2nd matrix must be same as col count of first matrix')
 		result = Matrix(self.get_row_count(), other.get_col_count())
 		for i in range(result.get_row_count()):
 			for j in range(result.get_col_count()):
 				result[i,j] = sum(self[i,k] * other[k,j] for k in range(self.get_col_count()))
 		return result
-
-
-	def __pow__(self, exp):
-		pass
 
 	@classmethod
 	def get_random(cls, row_count, col_count, smallest, largest):
@@ -97,12 +94,9 @@ class Matrix:
 
 	def __eq__(self, other):
 		# other must be a matrix to intuit equality 
-		if type(other) != Matrix:
-			raise TypeError('Given parameter is not a Matrix')
+		self._check_other(other)
 		# other must have the same dimensions as self
-		if self.get_row_count() != other.get_row_count() or \
-			   self.get_col_count() != other.get_col_count():
-			   raise IndexError('Unequal dimensions')
+		self._same_dimensions(other)
 		# other must have the same entires as self
 		return list(self) == list(other)
 
