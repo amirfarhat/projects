@@ -175,5 +175,11 @@ class TestMatrix(unittest.TestCase):
 			self.assertTrue(list_repr.get_col_count() == self.test_matrices[i].get_col_count())
 			self.assertTrue(list_repr == self.test_matrices[i])
 
+	def test_add(self):
+		for mat in self.test_matrices:
+			zero_matrix = Matrix(row_count = mat.get_row_count(), col_count = mat.get_col_count())
+			self.assertTrue(mat + zero_matrix == mat)
+			self.assertTrue(list(mat + mat) == [x*2 for x in list(mat)])
+
 if __name__ == '__main__':
 	unittest.main(verbosity = 3)
