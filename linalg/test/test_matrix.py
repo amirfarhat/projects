@@ -2,6 +2,7 @@ import unittest
 import os
 import sys
 import random
+import numpy
 
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.insert(0, os.path.join(DIR, "../"))
@@ -88,10 +89,7 @@ class TestMatrix(unittest.TestCase):
 			self.assertFalse(new_matrices[i] == old_matrices[i])
 			for k in range(new_matrices[i].get_row_count()):
 				for l in range(new_matrices[i].get_col_count()):
-					self.assertTrue(new_matrices[i][k,l] == lists[i][k][l])
-
-
-		
+					self.assertTrue(new_matrices[i][k,l] == lists[i][k][l])		
 
 	def test_getitem(self):
 		"""
@@ -121,11 +119,7 @@ class TestMatrix(unittest.TestCase):
 					expected_iter.append(elt)
 				elif type(elt) == list:
 					expected_iter.extend(elt)
-			# print(list(expected_iter), list(test_mat))
 			self.assertTrue(list(expected_iter) == list(test_mat))
-			# print(list(expected_iter), list(self.test_matrices[k-i]))
-			# print(list(expected_iter), list(self.test_matrices[k-i]))
-			# self.assertFalse(list(expected_iter) == list(self.test_matrices[k-i]))
 
 	def test_eq(self):
 		"""
@@ -202,6 +196,20 @@ class TestMatrix(unittest.TestCase):
 			self.assertTrue(mat.get_col_count() == col_count)
 			for elt in mat:
 				self.assertTrue(smallest <= elt <= largest)
+
+	def test_mult(self):
+		for i in range(len(self.test_matrices)):
+			if self.test_matrices[i].get_col_count() == self.test_matrices[i].get_row_count():
+				self_product = self.test_matrices[i] * self.test_matrices[i]
+				self.assertTrue(self_product.get_matrix() == numpy.matmul(self.test_lists[i], self.test_lists[i]).tolist())
+			else:
+				self.assertRaises(TypeError, lambda: self.test_matrices[i] * self.test_matrices[i])
+			zero_matrix = Matrix(self.test_matrices[i].get_col_count(), self.test_matrices[i].get_col_count())
+			zero_prod_answer = self.test_matrices[i] * zero_matrix
+			self.assertTrue(set(zero_prod_answer) == {0})
+			self.assertTrue(zero_prod_answer.get_row_count() == self.test_matrices[i].get_row_count())
+			self.assertTrue(zero_prod_answer.get_col_count() == zero_matrix.get_col_count())
+
 
 
 

@@ -39,7 +39,18 @@ class Matrix:
 		return answer
 
 	def __mul__(self, other):
-		pass
+		# other must be a matrix to intuit equality 
+		if type(other) != Matrix:
+			raise TypeError('Given parameter is not a Matrix')
+		# other must have the same dimensions as self
+		if self.get_col_count() != other.get_row_count():
+			raise TypeError('Row count of 2nd matrix must be same as col count of first matrix')
+		result = Matrix(self.get_row_count(), other.get_col_count())
+		for i in range(result.get_row_count()):
+			for j in range(result.get_col_count()):
+				result[i,j] = sum(self[i,k] * other[k,j] for k in range(self.get_col_count()))
+		return result
+
 
 	def __pow__(self, exp):
 		pass
