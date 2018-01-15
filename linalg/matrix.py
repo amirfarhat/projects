@@ -1,3 +1,4 @@
+import random
 
 class Matrix:
 	def __init__(self, row_count, col_count):
@@ -42,6 +43,17 @@ class Matrix:
 
 	def __pow__(self, exp):
 		pass
+
+	@classmethod
+	def get_random(cls, row_count, col_count, smallest, largest):
+		"""
+		Gets a random matrix with the specified variables
+		"""
+		M = cls(row_count, col_count)
+		for i in range(row_count):
+			for j in range(col_count):
+				M[i,j] = random.randint(smallest, largest)
+		return M
 
 	@classmethod
 	def get_from_list(cls, array):

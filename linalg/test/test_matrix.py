@@ -1,11 +1,13 @@
 import unittest
 import os
 import sys
+import random
 
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.insert(0, os.path.join(DIR, "../"))
 
-from matrix import Matrix
+from matrix import *
+
 
 def load_test_matrices(verbose = False):
 	"""
@@ -186,6 +188,21 @@ class TestMatrix(unittest.TestCase):
 			zero_matrix = Matrix(row_count = mat.get_row_count(), col_count = mat.get_col_count())
 			self.assertTrue(mat - zero_matrix == mat)
 			self.assertTrue(mat - mat == zero_matrix)
+
+	def test_get_random(self):
+		num_tests = 10
+		for _ in range(num_tests):
+			row_count = random.randint(1, 30)
+			col_count = random.randint(1, 30)
+			smallest = random.randint(-200, -1)
+			largest = random.randint(1, 200)
+			mat = Matrix.get_random(row_count, col_count, smallest, largest)
+			self.assertTrue(mat.get_row_count() == row_count)
+			self.assertTrue(mat.get_col_count() == col_count)
+			for elt in mat:
+				self.assertTrue(smallest <= elt <= largest)
+
+
 
 
 if __name__ == '__main__':
