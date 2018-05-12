@@ -76,6 +76,17 @@ class Vector:
 		subtraction = lambda a, b : a - b
 		return self._linear_combine(other, subtraction)
 
+	def dot(self, other):
+		"""
+		Returns the new Vector resultant from taking the 
+		dot product of self and other
+
+		other: equidimensional Vector to self
+		"""
+		mul = lambda a, b :  a * b
+		products = self._linear_combine(other, mul)
+		return sum(products.components)
+
 	def __eq__(self, other):
 		"""
 		Returns True if self and other are equal Vectors componentwise
